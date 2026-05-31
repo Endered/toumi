@@ -5,7 +5,7 @@ import java.nio.file.Paths
 
 package object toumi {
   def expandHeaders(searchPaths: Seq[String], headerPaths: Seq[String]): String = {
-    val searchPathArgs = searchPaths.map(s => s"-L${s}")
+    val searchPathArgs = searchPaths.map(s => s"-I${s}")
 
     val headerFile = createTempFile("toumi-header", ".h")
     val headerFileContents = headerPaths.map(p => s"""#include"${p}" """).mkString("\n")
