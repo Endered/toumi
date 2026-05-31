@@ -11,7 +11,7 @@ package object toumi {
     val headerFileContents = headerPaths.map(p => s"""#include"${p}" """).mkString("\n")
     Files.write(headerFile, headerFileContents.getBytes())
 
-    Process("clang", searchPaths.map("-L" + _) ++ Seq("-P", "-E", headerFile.toAbsolutePath().toString())).!!
+    Process("clang", searchPathArgs ++ Seq("-P", "-E", headerFile.toAbsolutePath().toString())).!!
   }
 
   def clangExtract(content: String): String = {
