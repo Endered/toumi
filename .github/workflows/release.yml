@@ -18,6 +18,8 @@ jobs:
              sudo apt-get update
              sudo apt-get install -y musl-dev
       - run: sbt toumi/nativeLinkReleaseFull
+        env:
+	  TOUMI_STATIC_LINK: yes
       - uses: actions/upload-artifact@v4
         with:
           name: toumi
