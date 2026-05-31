@@ -1,0 +1,24 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: sbt
+      - uses: sbt/setup-sbt@v1
+      - run: |
+             sudo apt-get update
+             sudo apt-get install -y musl-dev
+      - run: sbt toumi/nativeLinkReleaseFull
+      - uses: actions/upload-artifact@v4
+        with:
+          name: toumi
+          path: toumi/target/scala-3.8.3/toumi-release-full
