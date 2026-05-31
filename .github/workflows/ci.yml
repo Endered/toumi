@@ -15,5 +15,6 @@ jobs:
           distribution: temurin
           java-version: 17
           cache: sbt
+      - uses: sbt/setup-sbt@v1
       - run: sbt scalafmtCheckAll
       - run: sbt compile
