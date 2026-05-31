@@ -6,11 +6,20 @@ lazy val root = project
   .in(file("."))
   .aggregate(toumi, core)
 
+lazy val linkingOptions = if (sys.env.contains("TOUMI_STATIC_LINK")) {
+  Seq("-static")
+} else {
+  Seq()
+}
+
 lazy val toumi = project
   .in(file("toumi"))
   .enablePlugins(ScalaNativePlugin)
   .settings(
     commonSettings,
+    nativeConfig ~= {
+      _.withLinkingOptions(linkingOptions)
+    },
   )
   .dependsOn(core)
 
