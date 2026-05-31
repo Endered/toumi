@@ -11,7 +11,7 @@ trait Printer {
 
 object Printer {
   class StandardOutput() extends Printer {
-    override def println(s: String): Unit = println(s)
+    override def println(s: String): Unit = _root_.scala.Predef.println(s)
     override def close(): Unit = ()
   }
 
