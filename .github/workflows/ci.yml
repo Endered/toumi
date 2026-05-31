@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: sbt
+      - run: sbt scalafmtCheckAll
+      - run: sbt compile
