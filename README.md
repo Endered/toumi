@@ -10,7 +10,12 @@ $ sbt toumi/nativeLink
 ...
 
 # extract definitions by regex pattern
-$ toumi/target/scala-3.8.3/toumi $(pkg-config --cflags gio-2.0) -t gio/gio.h -p 'g_variant_get_int.*' -p '.*signal_emit.*' -o extracted.h
+$ toumi/target/scala-3.8.3/toumi \
+    $(pkg-config --cflags gio-2.0) \ # Add search path for clang
+	-t gio/gio.h \ # Target for header file to extract
+	-p 'g_variant_get_int.*' \ # Regex pattern 1
+	-p '.*signal_emit.*' \ # Regex pattern 2
+	-o extracted.h # Set file path for result
 ...
 
 # show generated header file
