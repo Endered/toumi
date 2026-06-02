@@ -4,6 +4,9 @@ lazy val commonSettings = Seq(
 
 lazy val root = project
   .in(file("."))
+  .settings(
+    commonSettings,
+  )
   .aggregate(toumi, core)
 
 lazy val linkingOptions = if (sys.env.contains("TOUMI_STATIC_LINK")) {
