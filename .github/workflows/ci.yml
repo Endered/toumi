@@ -18,5 +18,5 @@ jobs:
       - uses: sbt/setup-sbt@v1
       - run: sbt scalafmtCheckAll
       - run: sbt dumpLicenseReportAnyProject
-      - run: diff THIRD_PARTY_LICENSES.md target/license-reports/root-licenses.md
+      - run: diff THIRD_PARTY_LICENSES.md target/license-reports/toumi-licenses.md
       - run: sbt compile
