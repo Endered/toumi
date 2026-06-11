@@ -6,6 +6,8 @@ lazy val root = project
   .in(file("."))
   .settings(
     commonSettings,
+    // LICENSES
+    licenseReportTitle := "toumi-licenses",
   )
   .aggregate(toumi, core)
 

@@ -1,4 +1,4 @@
-# root-licenses
+# toumi-licenses
 
 Category | License | Dependency | Notes
 --- | --- | --- | ---
