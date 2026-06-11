@@ -1,3 +1,12 @@
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
+
+lazy val rootPath = Paths.get(".")
+
+lazy val dist = taskKey[Path]("Build and upload to ./dist directory")
+
 lazy val commonSettings = Seq(
   scalaVersion := "3.8.3",
 )
@@ -24,6 +33,17 @@ lazy val toumi = project
     commonSettings,
     nativeConfig ~= {
       _.withLinkingOptions(linkingOptions)
+    },
+    dist := {
+      val binaryFile = (Compile / nativeLinkReleaseFull).value
+      val binaryName = name.value
+      val uploadTo = rootPath / "dist" / binaryName
+      println(s"${binaryFile.toPath()} ${uploadTo}")
+      if (!Files.exists(uploadTo.getParent())) {
+        Files.createDirectories(uploadTo.getParent())
+      }
+      Files.copy(binaryFile.toPath(), uploadTo, StandardCopyOption.REPLACE_EXISTING)
+      uploadTo
     },
   )
   .dependsOn(core)
