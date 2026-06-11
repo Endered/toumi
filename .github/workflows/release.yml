@@ -2,6 +2,9 @@ name: Release
 
 on:
   workflow_dispatch:
+    inputs:
+      tag:
+        required: true
 
 jobs:
   build-and-publish:
@@ -17,10 +20,9 @@ jobs:
       - run: |
              sudo apt-get update
              sudo apt-get install -y musl-dev
-      - run: sbt toumi/nativeLinkReleaseFull
+      - run: sbt dist
         env:
           TOUMI_STATIC_LINK: yes
-      - uses: actions/upload-artifact@v4
-        with:
-          name: toumi
-          path: toumi/target/scala-3.8.3/toumi-release-full
+      - run: gh release create ${{ inputs.tag }} ./dist/*
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
