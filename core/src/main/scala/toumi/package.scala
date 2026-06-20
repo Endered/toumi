@@ -30,11 +30,17 @@ package object toumi {
     Source.fromFile(outputFile.toFile()).getLines().mkString("\n")
   }
 
-  def symbolToOutput(symbol: toumi.ClangExtractApiJson.Symbol, outputOnlyName: Boolean): String = {
-    outputOnlyName match {
+  def symbolToOutput(symbol: toumi.ClangExtractApiJson.Symbol, outputOnlyName: Boolean, outputUndef: Boolean): String = {
+    val output1 = outputUndef match {
+      case true  => s"#undef ${symbol.names.title}\n"
+      case false => ""
+    }
+    val output2 = outputOnlyName match {
       case true  => symbol.names.title
       case false => symbol.declarationFragments.map(_.spelling).mkString(" ")
     }
+
+    output1 + output2
   }
 
   def withPrinter[T](config: Config)(f: Printer => T): T = {

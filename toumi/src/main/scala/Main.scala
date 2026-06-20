@@ -24,7 +24,7 @@ object Main {
     withPrinter(config) { printer =>
       symbols
         .sortBy(_.names.title)
-        .map(toumi.symbolToOutput(_, config.outputOnlyName.value))
+        .map(toumi.symbolToOutput(_, config.outputOnlyName.value, config.outputUndef.value))
         .foreach { output => printer.println(output) }
     }
   }

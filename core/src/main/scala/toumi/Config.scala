@@ -11,5 +11,6 @@ case class Config(
     @arg(short = 'p', doc = "Regex patterns for extracting prototype definitions") pattern: Seq[String],
     @arg(doc = "Output only names of symbols") outputOnlyName: Flag,
     @arg(doc = "Expand includes before listing prototypes") expandInclude: Flag,
+    @arg(doc = "Output will contain C language #undef for prototypes") outputUndef: Flag,
     @arg(short = 'o', doc = "File path to output result") output: Option[String],
 )
