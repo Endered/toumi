@@ -14,13 +14,18 @@ package object toumi {
     Process("clang", searchPathArgs ++ Seq("-P", "-E", headerFile.toAbsolutePath().toString())).!!
   }
 
-  def clangExtract(content: String): String = {
+  def clangExtract(searchPaths: Seq[String], content: String): String = {
     val inputFile = createTempFile("toumi-extract-input", ".h")
     Files.write(inputFile, content.getBytes())
 
+    val searchPathArgs = searchPaths.map(s => s"-I${s}")
+
     val outputFile = createTempFile("toumi-extract-output", ".json")
 
-    Process("clang", Seq("-extract-api", "-x", "c-header", "-o", outputFile.toAbsolutePath().toString(), inputFile.toAbsolutePath().toString())).!!
+    Process(
+      "clang",
+      searchPathArgs ++ Seq("-extract-api", "-x", "c-header", "-o", outputFile.toAbsolutePath().toString(), inputFile.toAbsolutePath().toString()),
+    ).!!
 
     Source.fromFile(outputFile.toFile()).getLines().mkString("\n")
   }

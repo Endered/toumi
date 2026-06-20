@@ -4,14 +4,18 @@ import io.circe.parser.decode
 import toumi.ClangExtractApiJson
 import toumi.Filter
 import toumi.withPrinter
+import scala.io.Source
 
 object Main {
   def main(args: Array[String]): Unit = {
     val config = ParserForClass[Config].constructOrExit(args)
     val filter = Filter.fromRegexes(config.pattern)
 
-    val expandedHeader = toumi.expandHeaders(config.clangSearchPath, config.headerPath)
-    val extractedJson = toumi.clangExtract(expandedHeader)
+    val expandedHeader = config.expandInclude.value match {
+      case true  => toumi.expandHeaders(config.clangSearchPath, config.headerPath)
+      case false => config.headerPath.map(p => Source.fromFile(p).getLines().mkString("\n")).mkString("\n")
+    }
+    val extractedJson = toumi.clangExtract(config.clangSearchPath, expandedHeader)
 
     val parsed = decode[ClangExtractApiJson.Root](extractedJson).right.get
 
