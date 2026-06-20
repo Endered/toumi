@@ -18,9 +18,10 @@ object Main {
     val symbols = parsed.symbols.filter(x => filter.check(x.names.title))
 
     withPrinter(config) { printer =>
-      symbols.foreach { symbol =>
-        printer.println(symbol.declarationFragments.map(_.spelling).mkString(" "))
-      }
+      symbols
+        .sortBy(_.names.title)
+        .map(toumi.symbolToOutput(_, config.outputOnlyName.value))
+        .foreach { output => printer.println(output) }
     }
   }
 }
