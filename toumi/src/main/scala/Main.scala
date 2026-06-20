@@ -24,7 +24,7 @@ object Main {
     withPrinter(config) { printer =>
       if (config.outputIncludeHeaderPath.value) {
         config.headerPath.sorted.foreach { header =>
-          printer.println(s"#include<${header}>")
+          printer.println(s"""#include "${header}" """)
         }
       }
       symbols
