@@ -22,6 +22,11 @@ object Main {
     val symbols = parsed.symbols.filter(x => filter.check(x.names.title))
 
     withPrinter(config) { printer =>
+      if (config.outputIncludeHeaderPath.value) {
+        config.headerPath.sorted.foreach { header =>
+          printer.println(s"#include<${header}>")
+        }
+      }
       symbols
         .sortBy(_.names.title)
         .map(toumi.symbolToOutput(_, config.outputOnlyName.value, config.outputUndef.value))

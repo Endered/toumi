@@ -12,5 +12,6 @@ case class Config(
     @arg(doc = "Output only names of symbols") outputOnlyName: Flag,
     @arg(doc = "Expand includes before listing prototypes") expandInclude: Flag,
     @arg(doc = "Output will contain C language #undef for prototypes") outputUndef: Flag,
+    @arg(doc = "Output like `#include<...>` for each argument specified in -t") outputIncludeHeaderPath: Flag,
     @arg(short = 'o', doc = "File path to output result") output: Option[String],
 )
